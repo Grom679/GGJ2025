@@ -32,6 +32,7 @@ namespace DeepGame.Quota
         {
             _currentQuota = GenerateQuota();
             _previousQuotaValue = _currentQuota.quotaValue;
+            OnNewDayGenerated?.Invoke(_currentQuota.quotaValue);
         }
 
         public Quota GetQuotaData()
@@ -72,7 +73,8 @@ namespace DeepGame.Quota
         {
             ResetParameters();
             _currentQuota.quotaValue = 0f;
-            InitializeQuota();
+            _currentQuota = GenerateQuota();
+            _previousQuotaValue = _currentQuota.quotaValue;
         }
 
         private void ResetParameters()

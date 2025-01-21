@@ -1,4 +1,5 @@
 using DeepGame.Quota;
+using System.Collections;
 using UnityEditor;
 using UnityEngine;
 
@@ -24,7 +25,10 @@ namespace VRSim.Core
         {
             ServiceLocator.Clear();
             SetupServices();
+        }
 
+        private void Start()
+        {
             _quotaManager.InitializeQuota();
         }
 
