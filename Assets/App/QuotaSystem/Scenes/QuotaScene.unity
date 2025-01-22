@@ -169,19 +169,23 @@ MonoBehaviour:
   _ship: {fileID: 236951927}
   _mapData:
     upperSections:
-    - {fileID: 2765148350167432006, guid: 7b9cf2944a9f853438b51e8e1d2d36a4, type: 3}
-    - {fileID: 5960973385348055431, guid: 8f2dfbe7ba7b91a419cfbc8de94f4069, type: 3}
-    - {fileID: 3823046765195896673, guid: b9f71bbb98e10c540a6a09b4a4dec13d, type: 3}
+    - {fileID: 8813817227379213513, guid: 7b9cf2944a9f853438b51e8e1d2d36a4, type: 3}
+    - {fileID: -520670861137007087, guid: 8f2dfbe7ba7b91a419cfbc8de94f4069, type: 3}
+    - {fileID: 5833306890063256898, guid: b9f71bbb98e10c540a6a09b4a4dec13d, type: 3}
     middleSections:
-    - {fileID: 5458867136708080118, guid: 0af83780e5db8f9479c384875a2185ea, type: 3}
-    - {fileID: 8494250960015231626, guid: b492736abbb8cea4eae0abdbc1f053d7, type: 3}
-    - {fileID: 4238536424434139801, guid: e2351192765860e4f9e85c2f30dac66e, type: 3}
+    - {fileID: 9119339470541909858, guid: 0af83780e5db8f9479c384875a2185ea, type: 3}
+    - {fileID: 4310202869317840668, guid: b492736abbb8cea4eae0abdbc1f053d7, type: 3}
+    - {fileID: -5116976597777331354, guid: e2351192765860e4f9e85c2f30dac66e, type: 3}
     downSections:
-    - {fileID: 2274823007945181328, guid: e5e505173c383e543951f4293482a2ff, type: 3}
-    - {fileID: 7906252942100172645, guid: 39b4e39f20b15c14daafd62e563be4b1, type: 3}
-    - {fileID: 2887446854161189643, guid: 3ba759a49d04cf14d91f79a0befeada1, type: 3}
+    - {fileID: 617002026839818202, guid: e5e505173c383e543951f4293482a2ff, type: 3}
+    - {fileID: 5597994317052927483, guid: 39b4e39f20b15c14daafd62e563be4b1, type: 3}
+    - {fileID: -4767199448454202920, guid: 3ba759a49d04cf14d91f79a0befeada1, type: 3}
   _middleValue: -10
   _downValue: -20
+  _deadZone: 5
+  _sectionHeight: 2
+  _loot:
+  - {fileID: 8135001201054688053, guid: ba0a32847872674459177b83c38a4232, type: 3}
 --- !u!1 &196300544
 GameObject:
   m_ObjectHideFlags: 0

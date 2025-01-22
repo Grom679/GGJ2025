@@ -1,3 +1,4 @@
+using DeepGame.Loot;
 using DeepGame.Quota;
 using System.Collections;
 using System.Collections.Generic;
@@ -8,6 +9,8 @@ namespace DeepGame.Map
 {
     public class MapGenerator : MonoBehaviour
     {
+        public List<LootItem> LootItem => _loot;
+
         [SerializeField]
         private Transform _ship;
         [SerializeField]
@@ -20,17 +23,18 @@ namespace DeepGame.Map
         private float _deadZone = 5f;
         [SerializeField]
         private float _sectionHeight = 2f;
+        [SerializeField]
+        private List<LootItem> _loot;
 
         private QuotaManager _quotaManager;
         private float _quotaValue;
-        private List<GameObject> _createdSections = new List<GameObject>();
+        private List<MapSection> _createdSections = new List<MapSection>();
         private int _activeSection = 0;
         private bool _isInit = false;
 
         private void Start()
         {
             _quotaManager = ServiceLocator.Get<QuotaManager>();
-            Debug.Log(_quotaManager);
             _quotaManager.OnNewDayGenerated += GenerateStartingLocation;
         }
 
@@ -67,26 +71,25 @@ namespace DeepGame.Map
         {
             for (int i = 0; i < _createdSections.Count; i++)
             {
-                GameObject section = _createdSections[i];
+                MapSection section = _createdSections[i];
                 if (section.transform.position.y < _ship.position.y - _deadZone || section.transform.position.y > _ship.position.y + _deadZone)
                 {
                     // Set the section inactive
-                    section.SetActive(false);
+                    section.gameObject.SetActive(false);
                 }
                 else
                 {
-                    section.SetActive(true);
+                    section.gameObject.SetActive(true);
                 }
             }
         }
 
         private void GenerateNewSection()
         {
-            GameObject newSection = Instantiate(GetNewSection(), transform);
-
+            MapSection newSection = Instantiate(GetNewSection(), transform);
+            newSection.SpawnLoot(_loot);
             // Position the new section below the last one
             newSection.transform.localPosition = new Vector3(0f, _createdSections[_activeSection].transform.localPosition.y - _sectionHeight, 0f);
-
             // Add the new section to the list of created sections
             _createdSections.Add(newSection);
             _activeSection++;
@@ -95,14 +98,14 @@ namespace DeepGame.Map
         private void GenerateStartingLocation(float quota)
         {
             _quotaValue = quota;
-            GameObject firstSection = Instantiate(_mapData.upperSections[GetRandomIndex(_mapData.upperSections.Count)], transform);
+            MapSection firstSection = Instantiate(_mapData.upperSections[GetRandomIndex(_mapData.upperSections.Count)], transform);
             _createdSections.Add(firstSection);
             _isInit = true;
         }
 
-        private GameObject GetNewSection()
+        private MapSection GetNewSection()
         {
-            GameObject section;
+            MapSection section;
 
             if(_ship.position.y < _middleValue && _ship.position.y > _downValue)
             {

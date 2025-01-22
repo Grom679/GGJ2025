@@ -9,6 +9,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1217846293541959276}
+  - component: {fileID: -4767199448454202920}
   m_Layer: 0
   m_Name: MapSection_Deep_1
   m_TagString: Untagged
@@ -34,6 +35,18 @@ Transform:
   - {fileID: 2676519964976376984}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &-4767199448454202920
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2887446854161189643}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: aa452d4dbd33a374eb57b76160fa9ebf, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &6889568374125785476
 GameObject:
   m_ObjectHideFlags: 0

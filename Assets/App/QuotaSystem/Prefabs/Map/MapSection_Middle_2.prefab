@@ -324,6 +324,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 4751892055875897998}
+  - component: {fileID: 4310202869317840668}
   m_Layer: 0
   m_Name: MapSection_Middle_2
   m_TagString: Untagged
@@ -349,3 +350,19 @@ Transform:
   - {fileID: 1250868659128228175}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &4310202869317840668
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8494250960015231626}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: aa452d4dbd33a374eb57b76160fa9ebf, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _lootPoint: []
+  _lootValueBorder: 150
+  _lootMaxPrice: 30
+  _valueOffset: 10
