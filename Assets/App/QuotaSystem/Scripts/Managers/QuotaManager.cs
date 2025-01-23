@@ -65,6 +65,7 @@ namespace DeepGame.Quota
             }
         }
 
+
         [ContextMenu("Regenerate")]
         public void GenerateNewDay()
         {
