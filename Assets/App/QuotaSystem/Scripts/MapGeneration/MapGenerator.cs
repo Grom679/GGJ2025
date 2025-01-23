@@ -97,10 +97,25 @@ namespace DeepGame.Map
 
         private void GenerateStartingLocation(float quota)
         {
+            ClearLocation();
             _quotaValue = quota;
             MapSection firstSection = Instantiate(_mapData.upperSections[GetRandomIndex(_mapData.upperSections.Count)], transform);
             _createdSections.Add(firstSection);
             _isInit = true;
+        }
+
+        private void ClearLocation()
+        {
+            _quotaValue = 0f;
+            _activeSection = 0;
+            _isInit = false;
+
+            foreach(MapSection section in _createdSections)
+            {
+                Destroy(section.gameObject);
+            }
+
+            _createdSections.Clear();
         }
 
         private MapSection GetNewSection()

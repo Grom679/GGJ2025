@@ -8,6 +8,7 @@ namespace DeepGame.Quota
     public class QuotaManager : MonoBehaviour
     {
         public Action OnQuotaFailed { get; set; }
+        public Action OnDayFinished{ get; set; }
         public Action<float> OnNewDayGenerated { get; set; }
         public Action OnQuotaCompleted { get; set; }
 
@@ -60,8 +61,14 @@ namespace DeepGame.Quota
             {
                 _currentDay++;
                 _currentQuotaValue += quotaDelta;
-                OnNewDayGenerated?.Invoke(_currentQuota.quotaValue);
+                OnDayFinished?.Invoke();
             }
+        }
+
+        [ContextMenu("Regenerate")]
+        public void GenerateNewDay()
+        {
+            OnNewDayGenerated?.Invoke(_currentQuota.quotaValue);
         }
 
         private void FinishQuota()
