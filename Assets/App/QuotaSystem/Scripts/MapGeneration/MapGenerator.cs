@@ -1,9 +1,11 @@
+using System;
 using DeepGame.Loot;
 using DeepGame.Quota;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using VRSim.Core;
+using Random = UnityEngine.Random;
 
 namespace DeepGame.Map
 {
@@ -32,12 +34,12 @@ namespace DeepGame.Map
         private int _activeSection = 0;
         private bool _isInit = false;
 
-        private void Start()
+        private void Awake()
         {
             _quotaManager = ServiceLocator.Get<QuotaManager>();
             _quotaManager.OnNewDayGenerated += GenerateStartingLocation;
         }
-
+        
         private void OnDisable()
         {
             _quotaManager.OnNewDayGenerated -= GenerateStartingLocation;
@@ -97,6 +99,7 @@ namespace DeepGame.Map
 
         private void GenerateStartingLocation(float quota)
         {
+            Debug.LogError("GenerateStartingLocation");
             ClearLocation();
             _quotaValue = quota;
             MapSection firstSection = Instantiate(_mapData.upperSections[GetRandomIndex(_mapData.upperSections.Count)], transform);

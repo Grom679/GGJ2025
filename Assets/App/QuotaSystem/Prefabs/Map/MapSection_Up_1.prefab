@@ -47,6 +47,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: aa452d4dbd33a374eb57b76160fa9ebf, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _lootPoint: []
+  _lootValueBorder: 0
+  _lootMaxPrice: 0
+  _valueOffset: 0
 --- !u!1 &4601458175672910826
 GameObject:
   m_ObjectHideFlags: 0
@@ -166,7 +170,7 @@ GameObject:
   - component: {fileID: 6216778153121328780}
   m_Layer: 0
   m_Name: Wall
-  m_TagString: Untagged
+  m_TagString: Wall
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -271,7 +275,7 @@ GameObject:
   - component: {fileID: 3904479540088641111}
   m_Layer: 0
   m_Name: Wall (1)
-  m_TagString: Untagged
+  m_TagString: Wall
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
