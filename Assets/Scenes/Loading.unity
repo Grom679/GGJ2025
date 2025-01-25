@@ -476,7 +476,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: TITLE
+  m_text: ABYSSOFT
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 9efbae20f425fa94eabb6b9af83b3d9a, type: 2}
   m_sharedMaterial: {fileID: -5519514972549411071, guid: 9efbae20f425fa94eabb6b9af83b3d9a,
