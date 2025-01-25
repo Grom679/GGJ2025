@@ -110,10 +110,10 @@ namespace DeepGame.Quota
         private void ResetPosition()
         {
             _material.SetFloat("_Darkest", 1);
-            _isRestarted = false;
             _currentVelocity = Vector3.zero;
             transform.position = _startPos;
             transform.rotation = Quaternion.identity;
+            _isRestarted = false;
         }
         
         private void OnDeepChange()
