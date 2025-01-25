@@ -27,13 +27,16 @@ namespace DeepGame.Map
         private float _sectionHeight = 2f;
         [SerializeField]
         private List<LootItem> _loot;
-        [SerializeField]
+       
         private QuotaManager _quotaManager;
         private float _quotaValue;
         private List<MapSection> _createdSections = new List<MapSection>();
         private int _activeSection = 0;
         private bool _isInit = false;
 
+        public float MiddleValue => _middleValue;
+        public float DownValue => _downValue;
+        
         private void Awake()
         {
             _quotaManager = ServiceLocator.Get<QuotaManager>();

@@ -1,6 +1,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using DeepGame.Map;
 using UnityEngine;
 using VRSim.Core;
 
@@ -21,8 +22,11 @@ namespace DeepGame.Quota
         [SerializeField] private float _effectiveInertia;
         [SerializeField] private GameObject _deathParticle;
         [SerializeField] private GameObject _engineParticle;
+        [SerializeField] private MapGenerator _mapGenerator;
+        [SerializeField] private MeshRenderer _deepRenderer;
         
         private Vector3 _currentVelocity = Vector3.zero;
+        private Vector3 _startPos;
         private float _currentRotationY = 0f;
         private Rigidbody _rigidbody;
         private ShipInventory _shipInventory;
@@ -31,11 +35,12 @@ namespace DeepGame.Quota
         private bool _isRestarted = false;
         private GameObject _triggeredWall;
         private MeshRenderer _meshRenderer;
+        private Material _material;
         
-        
-
         private void Awake()
         {
+            _material = _deepRenderer.material;
+            _startPos = transform.position;
             _meshRenderer = GetComponent<MeshRenderer>();
             _rigidbody = GetComponent<Rigidbody>();
             _shipInventory = GetComponent<ShipInventory>();
@@ -47,7 +52,7 @@ namespace DeepGame.Quota
             _quotaManager.OnDayFinished += ResetPosition;
         }
 
-        private void OnDisable()
+        private void OnDestroy()
         {
             _quotaManager.OnDayFinished -= ResetPosition;
         }
@@ -99,21 +104,38 @@ namespace DeepGame.Quota
             }
 
             _rigidbody.MovePosition(_newPosition);
+            OnDeepChange();
         }
 
         private void ResetPosition()
         {
+            _material.SetFloat("_Darkest", 1);
             _isRestarted = false;
             _currentVelocity = Vector3.zero;
-            transform.position = Vector3.zero;
+            transform.position = _startPos;
             transform.rotation = Quaternion.identity;
+        }
+        
+        private void OnDeepChange()
+        {
+            float deep =  _material.GetFloat("_Darkest");
+
+            if (_newPosition.y <= 0 && _newPosition.y >= _mapGenerator.MiddleValue)
+            {
+                deep = Mathf.Lerp(1f, 0.4f, Mathf.InverseLerp(0, _mapGenerator.MiddleValue, _newPosition.y));
+            }
+            else if (_newPosition.y <= _mapGenerator.MiddleValue && _newPosition.y >= _mapGenerator.DownValue)
+            {
+                deep = Mathf.Lerp(0.4f, 0.05f, Mathf.InverseLerp(_mapGenerator.MiddleValue, _mapGenerator.DownValue, _newPosition.y));
+            }
+            _material.SetFloat("_Darkest", deep);
         }
 
         public void Movement(bool enable)
         {
             enabled = enable;
         }
-
+        
         private IEnumerator DeathCoroutine()
         {
             GameObject particle = Instantiate(_deathParticle, transform.position, Quaternion.identity);
