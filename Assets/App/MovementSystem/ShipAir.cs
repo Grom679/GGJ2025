@@ -1,41 +1,64 @@
 using System;
-using System.Collections;
-using System.Collections.Generic;
-using DeepGame.Quota;
 using UnityEngine;
 using VRSim.Core;
 
-public class ShipAir : MonoBehaviour
+namespace DeepGame.Quota
 {
-    [SerializeField] private float _maxAir = 100f;
-    [SerializeField] private float _airKoef = 1; 
-    
-    private float _currentAir;
-    private bool _isAlive = true;
-    private QuotaManager _quotaManager;
-
-    private void Awake()
+    public class ShipAir : MonoBehaviour
     {
-        _currentAir = _maxAir;
-        _quotaManager = ServiceLocator.Get<QuotaManager>();
-    }
+        [SerializeField] private float _maxAir = 100f;
+        [SerializeField] private float _airKoef = 1;
 
-    private void Update()
-    {
-        if (_currentAir > 0 && _isAlive)
+        [SerializeField] private float _currentAir;
+        private bool _isAlive = true;
+        [SerializeField] private QuotaManager _quotaManager;
+
+        private void Start()
         {
-            _currentAir -= Time.deltaTime * _airKoef; 
-            //Debug.LogError("_currentAir " + _currentAir);
+            ResetAir();
+            _quotaManager = ServiceLocator.Get<QuotaManager>();
+            _quotaManager.OnDayFinished += ResetAir;
         }
-        else if (_currentAir <= 0 && _isAlive)
-        {
-            _isAlive = false;
-            _quotaManager.FinishDay(0);
-        }
-    }
 
-    public void UpgradeMaxAir(float additionalAir)
-    {
-        _maxAir += additionalAir;
+        private void OnDisable()
+        {
+            _quotaManager.OnDayFinished -= ResetAir;
+        }
+
+        private void Update()
+        {
+            if (_currentAir > 0 && _isAlive)
+            {
+                _currentAir -= Time.deltaTime * _airKoef;
+                //Debug.LogError("_currentAir " + _currentAir);
+            }
+            else if (_currentAir <= 0 && _isAlive)
+            {
+                _isAlive = false;
+                _quotaManager.FinishDay(0);
+            }
+        }
+
+        public void UpgradeMaxAir(float additionalAir)
+        {
+            _maxAir += additionalAir;
+        }
+
+        public void AddAir(float air)
+        {
+            if (_currentAir + air >= _maxAir)
+            {
+                _currentAir = _maxAir;
+            }
+            else
+            {
+                _currentAir += air;
+            }
+        }
+
+        private void ResetAir()
+        {
+            _currentAir = _maxAir;
+        }
     }
 }

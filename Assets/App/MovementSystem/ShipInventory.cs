@@ -1,50 +1,51 @@
-using System;
-using System.Collections;
-using System.Collections.Generic;
 using DeepGame.Loot;
 using UnityEngine;
 
-public class ShipInventory : MonoBehaviour
+namespace DeepGame.Quota
 {
-    [Header("Weight Settings")]
-    [SerializeField] private float _baseWeight = 1f;
-    [SerializeField] private float _additionalWeight = 0f;
-    [SerializeField] private float _weightMultiplier = 50f;
-    [SerializeField] private float _inertiaKoef;
-    [SerializeField] private float _speedKoef;
+    public class ShipInventory : MonoBehaviour
+    {
+        [Header("Weight Settings")] [SerializeField]
+        private float _baseWeight = 1f;
 
-    public float InertiaKoef => _inertiaKoef;
-    public float SpeedKoef => _speedKoef;
-    
-    private float _totalWeight;
-    
-    private void Awake()
-    {
-        UpdateWeightParameters();
-    }
-    
-    private void UpdateWeightParameters()
-    {
-       _totalWeight = _baseWeight + _additionalWeight;
-       _inertiaKoef = _totalWeight / _weightMultiplier;
-       _speedKoef = _additionalWeight / _weightMultiplier;
-    }
+        [SerializeField] private float _additionalWeight = 0f;
+        [SerializeField] private float _weightMultiplier = 50f;
+        [SerializeField] private float _inertiaKoef;
+        [SerializeField] private float _speedKoef;
 
-    private void SetAdditionalWeight(float newAdditionalWeight)
-    {
-        _additionalWeight += newAdditionalWeight;
-        UpdateWeightParameters();
-    }
+        public float InertiaKoef => _inertiaKoef;
+        public float SpeedKoef => _speedKoef;
 
-    private void OnTriggerEnter(Collider other)
-    {
-        if (other.CompareTag("Loot"))
+        private float _totalWeight;
+
+        private void Awake()
         {
-            LootItem item = other.GetComponent<LootItem>();
-            if (item != null)
+            UpdateWeightParameters();
+        }
+
+        private void UpdateWeightParameters()
+        {
+            _totalWeight = _baseWeight + _additionalWeight;
+            _inertiaKoef = _totalWeight / _weightMultiplier;
+            _speedKoef = _additionalWeight / _weightMultiplier;
+        }
+
+        private void SetAdditionalWeight(float newAdditionalWeight)
+        {
+            _additionalWeight += newAdditionalWeight;
+            UpdateWeightParameters();
+        }
+
+        private void OnTriggerEnter(Collider other)
+        {
+            if (other.CompareTag("Loot"))
             {
-                SetAdditionalWeight(item.Weight);
-                Destroy(other.gameObject);
+                LootItem item = other.GetComponent<LootItem>();
+                if (item != null)
+                {
+                    SetAdditionalWeight(item.Weight);
+                    Destroy(other.gameObject);
+                }
             }
         }
     }

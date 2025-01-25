@@ -27,7 +27,7 @@ namespace DeepGame.Map
         private float _sectionHeight = 2f;
         [SerializeField]
         private List<LootItem> _loot;
-
+        [SerializeField]
         private QuotaManager _quotaManager;
         private float _quotaValue;
         private List<MapSection> _createdSections = new List<MapSection>();
@@ -99,7 +99,6 @@ namespace DeepGame.Map
 
         private void GenerateStartingLocation(float quota)
         {
-            Debug.LogError("GenerateStartingLocation");
             ClearLocation();
             _quotaValue = quota;
             MapSection firstSection = Instantiate(_mapData.upperSections[GetRandomIndex(_mapData.upperSections.Count)], transform);

@@ -43,6 +43,7 @@ namespace DeepGame.Quota
 
         public void FinishDay(float quotaDelta)
         {
+            Debug.LogError("finish day");
             if(_currentDay == _currentQuota.daysCount)
             {
                 if(_currentQuotaValue >= _currentQuota.quotaValue)
@@ -62,6 +63,7 @@ namespace DeepGame.Quota
                 _currentDay++;
                 _currentQuotaValue += quotaDelta;
                 OnDayFinished?.Invoke();
+                GenerateNewDay();
             }
         }
 
@@ -69,7 +71,8 @@ namespace DeepGame.Quota
         [ContextMenu("Regenerate")]
         public void GenerateNewDay()
         {
-            OnNewDayGenerated?.Invoke(_currentQuota.quotaValue);
+            Debug.LogError("GenerateNewDay" + _currentQuota.quotaValue);
+            OnNewDayGenerated.Invoke(_currentQuota.quotaValue);
         }
 
         private void FinishQuota()
