@@ -614,6 +614,7 @@ MonoBehaviour:
   _speedKoef: 0
   _rewardMinigame: {fileID: 215960867}
   _miniGameRoot: {fileID: 1244741604}
+  _price: 0
 --- !u!114 &539264791
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -629,6 +630,7 @@ MonoBehaviour:
   _maxAir: 100
   _airKoef: 1
   _currentAir: 0
+  _isAlive: 1
 --- !u!114 &539264792
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1472,6 +1474,9 @@ MonoBehaviour:
   _quotaMaxPer: 0.25
   _quotaMaxDays: 5
   _quotaDayMultiplier: 1.7
+  _currentDay: 1
+  _currentQuotaValue: 0
+  _previousQuotaValue: 0
 --- !u!4 &1533268581
 Transform:
   m_ObjectHideFlags: 0
