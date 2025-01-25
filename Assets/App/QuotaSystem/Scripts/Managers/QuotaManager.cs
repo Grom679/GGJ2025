@@ -25,10 +25,10 @@ namespace DeepGame.Quota
         [SerializeField]
         private float _quotaDayMultiplier = 1.7f;
 
-        private int _currentDay = 1;
-        private float _currentQuotaValue = 0f;
-        private float _previousQuotaValue = 0f;
-
+        [SerializeField] private int _currentDay = 1;
+        [SerializeField] private float _currentQuotaValue = 0f;
+        [SerializeField] private float _previousQuotaValue = 0f;
+        
         public void InitializeQuota()
         {
             _currentQuota = GenerateQuota();
@@ -40,7 +40,7 @@ namespace DeepGame.Quota
         {
             return _currentQuota;
         }
-
+        
         public void FinishDay(float quotaDelta)
         {
             Debug.LogError("finish day");
@@ -48,15 +48,18 @@ namespace DeepGame.Quota
             {
                 if(_currentQuotaValue >= _currentQuota.quotaValue)
                 {
+                    Debug.LogError("quota completed");
                     ResetParameters();
                     FinishQuota();
                     OnQuotaCompleted?.Invoke();
                 }
                 else
                 {
+                    Debug.LogError("quota failed");
                     ResetCurrentValues();
                     OnQuotaFailed?.Invoke();
                 }
+                GenerateNewDay();
             }
             else
             {
@@ -96,15 +99,15 @@ namespace DeepGame.Quota
 
         private Quota GenerateQuota()
         {
-            Quota quota = null;
+            Quota quota = new Quota();
 
             if (_currentQuota.quotaValue == 0f)
             {
-                quota = _startingQuota;
+                quota.quotaValue = _startingQuota.quotaValue;
+                quota.daysCount = _startingQuota.daysCount;
             }
             else
             {
-                quota = new Quota();
                 float increasePercentage = UnityEngine.Random.Range(_quotaMinPer, _quotaMaxPer);
                 float newQuotaValue = _currentQuota.quotaValue * (1 + increasePercentage);
                 int newDaysCount = _currentQuota.daysCount;

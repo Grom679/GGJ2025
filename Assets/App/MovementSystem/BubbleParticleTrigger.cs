@@ -13,7 +13,6 @@ public class BubbleParticleTrigger : MonoBehaviour
         ShipAir shipAir = other.GetComponent<ShipAir>();
         if (shipAir != null)
         {
-            Debug.LogError("triggerAirBubble");
             shipAir.AddAir(_bubbleAir);
         }
     }

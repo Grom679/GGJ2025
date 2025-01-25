@@ -12,19 +12,19 @@ namespace DeepGame.Quota
         [SerializeField] private float _airKoef = 1;
 
         [SerializeField] private float _currentAir;
-        private bool _isAlive = true;
+        [SerializeField] private bool _isAlive = true;
         private QuotaManager _quotaManager;
 
         private void Start()
         {
             ResetAir();
             _quotaManager = ServiceLocator.Get<QuotaManager>();
-            _quotaManager.OnDayFinished += ResetAir;
+            _quotaManager.OnNewDayGenerated += ResetAir;
         }
 
         private void OnDisable()
         {
-            _quotaManager.OnDayFinished -= ResetAir;
+            _quotaManager.OnNewDayGenerated += ResetAir;
         }
 
         private void Update()
@@ -59,9 +59,17 @@ namespace DeepGame.Quota
             }
         }
 
-        private void ResetAir()
+        private void ResetAir(float quota = 0)
         {
+            Debug.LogError("StartAir");
             _currentAir = _maxAir;
+            _isAlive = true;
+        }
+
+        public void StopAir()
+        {
+            Debug.LogError("StopAir");
+            _isAlive = false;
         }
     }
 }

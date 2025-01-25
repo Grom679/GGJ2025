@@ -30,6 +30,7 @@ namespace DeepGame.Quota
         private float _currentRotationY = 0f;
         private Rigidbody _rigidbody;
         private ShipInventory _shipInventory;
+        private ShipAir _shipAir;
         private QuotaManager _quotaManager;
         private Vector3 _newPosition;
         private bool _isRestarted = false;
@@ -41,6 +42,7 @@ namespace DeepGame.Quota
         {
             _material = _deepRenderer.material;
             _startPos = transform.position;
+            _shipAir = GetComponent<ShipAir>();
             _meshRenderer = GetComponent<MeshRenderer>();
             _rigidbody = GetComponent<Rigidbody>();
             _shipInventory = GetComponent<ShipInventory>();
@@ -49,12 +51,14 @@ namespace DeepGame.Quota
         private void Start()
         {
             _quotaManager = ServiceLocator.Get<QuotaManager>();
-            _quotaManager.OnDayFinished += ResetPosition;
+            _quotaManager.OnNewDayGenerated += ResetPosition;
+            //_quotaManager.OnDayFinished += ResetPosition;
         }
 
         private void OnDestroy()
         {
-            _quotaManager.OnDayFinished -= ResetPosition;
+            _quotaManager.OnNewDayGenerated -= ResetPosition;
+            //_quotaManager.OnDayFinished -= ResetPosition;
         }
 
         private void OnTriggerEnter(Collider other)
@@ -101,15 +105,26 @@ namespace DeepGame.Quota
             if (_newPosition.y >= _maxY)
             {
                 _newPosition.y = _maxY;
+                
+                if (_quotaManager != null)
+                {
+                    StartCoroutine(LeaveScene());
+                }
             }
 
             _rigidbody.MovePosition(_newPosition);
             OnDeepChange();
         }
 
+        private void ResetPosition(float quota)
+        {
+            ResetPosition();
+        }
+        
         private void ResetPosition()
         {
             _material.SetFloat("_Darkest", 1);
+            Movement(true);
             _currentVelocity = Vector3.zero;
             transform.position = _startPos;
             transform.rotation = Quaternion.identity;
@@ -150,6 +165,14 @@ namespace DeepGame.Quota
             _engineParticle.SetActive(true);
             ResetPosition();
             _quotaManager.FinishDay(0);
+        }
+
+        private IEnumerator LeaveScene()
+        {
+            _shipAir.StopAir();
+            Movement(false);
+            yield return new WaitForSeconds(2f);
+            _quotaManager.FinishDay(_shipInventory.Price);
         }
     }
 }

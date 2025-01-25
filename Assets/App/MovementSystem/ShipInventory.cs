@@ -1,5 +1,7 @@
+using System;
 using DeepGame.Loot;
 using UnityEngine;
+using VRSim.Core;
 
 namespace DeepGame.Quota
 {
@@ -14,20 +16,35 @@ namespace DeepGame.Quota
         [SerializeField] private float _speedKoef;
         [SerializeField] private ReactionMinigame _rewardMinigame;
         [SerializeField] private GameObject _miniGameRoot;
-
+        [SerializeField] private float _price;
         public float InertiaKoef => _inertiaKoef;
         public float SpeedKoef => _speedKoef;
+        public float Price => _price;
 
         private float _totalWeight;
         private ShipMovement _movement;
         private ShipAir _air;
         private Collider _currentLoot;
+        private QuotaManager _quotaManager;
 
         private void Awake()
         {
             UpdateWeightParameters();
             _air = GetComponent<ShipAir>();
             _movement = GetComponent<ShipMovement>();
+        }
+
+        private void Start()
+        {
+            _quotaManager = ServiceLocator.Get<QuotaManager>();
+            //_quotaManager.OnDayFinished += ResetWeight;
+            _quotaManager.OnNewDayGenerated += ResetWeight;
+        }
+        
+        private void OnDestroy()
+        {
+            _quotaManager.OnNewDayGenerated += ResetWeight;
+            //_quotaManager.OnDayFinished -= ResetWeight;
         }
 
         private void OnEnable()
@@ -92,6 +109,7 @@ namespace DeepGame.Quota
             if (item != null)
             {
                 SetAdditionalWeight(item.Weight);
+                _price += item.Price;
                 Destroy(_currentLoot.gameObject);
                 _rewardMinigame.Close();
                 _miniGameRoot.SetActive(false);
@@ -108,6 +126,13 @@ namespace DeepGame.Quota
                 _miniGameRoot.SetActive(true);
                 _rewardMinigame.ActivateGame(item.Dificulty);
             }
+        }
+
+        private void ResetWeight(float quota)
+        {
+            _additionalWeight = 0;
+            _price = 0;
+            UpdateWeightParameters();
         }
     }
 }
