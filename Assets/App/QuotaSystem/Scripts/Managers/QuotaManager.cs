@@ -11,6 +11,8 @@ namespace DeepGame.Quota
         public Action OnDayFinished{ get; set; }
         public Action<float> OnNewDayGenerated { get; set; }
         public Action OnQuotaCompleted { get; set; }
+        public int CurrentDay => _currentDay;
+        public float CurrentQuotaValue => _currentQuotaValue;
 
         [SerializeField]
         private Quota _startingQuota;
