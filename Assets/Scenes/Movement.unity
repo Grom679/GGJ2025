@@ -673,7 +673,6 @@ MonoBehaviour:
   _maxAir: 100
   _airKoef: 1
   _currentAir: 0
-  _quotaManager: {fileID: 0}
 --- !u!114 &539264792
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -692,7 +691,9 @@ MonoBehaviour:
   _currentSpeed: 0
   _currentRotationSpeed: 0
   _effectiveInertia: 0
-  _quotaManager: {fileID: 0}
+  _deathParticle: {fileID: 7314766000786123678, guid: cc6941c6eb71a0540859188f35953d80,
+    type: 3}
+  _engineParticle: {fileID: 767634889}
 --- !u!1 &698082943
 GameObject:
   m_ObjectHideFlags: 3
@@ -781,6 +782,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ac0b09e7857660247b1477e93731de29, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!1 &767634889 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 3469192693737103049, guid: 9bfa61a11ca54a840840ba5330be16f9,
+    type: 3}
+  m_PrefabInstance: {fileID: 284376427}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &986400756
 GameObject:
   m_ObjectHideFlags: 0
@@ -1716,7 +1723,11 @@ MonoBehaviour:
   _deadZone: 5
   _sectionHeight: 6
   _loot:
-  - {fileID: 8135001201054688053, guid: ba0a32847872674459177b83c38a4232, type: 3}
+  - {fileID: 6621561053493026010, guid: 2b703cc744c70f74fa3a2315aa06c60e, type: 3}
+  - {fileID: 3911196789410188406, guid: 8274d2c5935f66141a83aaf0c6d17bd6, type: 3}
+  - {fileID: 8206147759155122054, guid: 6fb07e875df5f634190adcea1f3df21c, type: 3}
+  - {fileID: 1076404876274387494, guid: f863d49a4356e2748af5615a98168bfc, type: 3}
+  - {fileID: -7145926800856589002, guid: f5430174174ac914fb24e8bbc511ba92, type: 3}
   _quotaManager: {fileID: 0}
 --- !u!4 &1891029970
 Transform:

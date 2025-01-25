@@ -1,4 +1,5 @@
 using System;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using VRSim.Core;
@@ -18,18 +19,24 @@ namespace DeepGame.Quota
 
         [SerializeField] private float _currentRotationSpeed;
         [SerializeField] private float _effectiveInertia;
-
+        [SerializeField] private GameObject _deathParticle;
+        [SerializeField] private GameObject _engineParticle;
+        
         private Vector3 _currentVelocity = Vector3.zero;
         private float _currentRotationY = 0f;
         private Rigidbody _rigidbody;
         private ShipInventory _shipInventory;
-        [SerializeField] private QuotaManager _quotaManager;
+        private QuotaManager _quotaManager;
         private Vector3 _newPosition;
         private bool _isRestarted = false;
         private GameObject _triggeredWall;
+        private MeshRenderer _meshRenderer;
+        
+        
 
         private void Awake()
         {
+            _meshRenderer = GetComponent<MeshRenderer>();
             _rigidbody = GetComponent<Rigidbody>();
             _shipInventory = GetComponent<ShipInventory>();
         }
@@ -55,7 +62,7 @@ namespace DeepGame.Quota
                     _isRestarted = true;
                     if (_quotaManager != null)
                     {
-                        _quotaManager.FinishDay(0);
+                        StartCoroutine(DeathCoroutine());
                     }
                 }
             }
@@ -100,6 +107,27 @@ namespace DeepGame.Quota
             _currentVelocity = Vector3.zero;
             transform.position = Vector3.zero;
             transform.rotation = Quaternion.identity;
+        }
+
+        public void Movement(bool enable)
+        {
+            enabled = enable;
+        }
+
+        private IEnumerator DeathCoroutine()
+        {
+            GameObject particle = Instantiate(_deathParticle, transform.position, Quaternion.identity);
+            Movement(false);
+            _meshRenderer.enabled = false;
+            _engineParticle.SetActive(false);
+            yield return new WaitForSeconds(2f);
+            
+            Destroy(particle);
+            Movement(true);
+            _meshRenderer.enabled = true;
+            _engineParticle.SetActive(true);
+            ResetPosition();
+            _quotaManager.FinishDay(0);
         }
     }
 }

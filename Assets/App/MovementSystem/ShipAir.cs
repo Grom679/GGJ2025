@@ -11,7 +11,7 @@ namespace DeepGame.Quota
 
         [SerializeField] private float _currentAir;
         private bool _isAlive = true;
-        [SerializeField] private QuotaManager _quotaManager;
+        private QuotaManager _quotaManager;
 
         private void Start()
         {
