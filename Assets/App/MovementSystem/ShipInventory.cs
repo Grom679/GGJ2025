@@ -12,15 +12,38 @@ namespace DeepGame.Quota
         [SerializeField] private float _weightMultiplier = 50f;
         [SerializeField] private float _inertiaKoef;
         [SerializeField] private float _speedKoef;
+        [SerializeField] private ReactionMinigame _rewardMinigame;
+        [SerializeField] private GameObject _miniGameRoot;
 
         public float InertiaKoef => _inertiaKoef;
         public float SpeedKoef => _speedKoef;
 
         private float _totalWeight;
+        private ShipMovement _movement;
+        private ShipAir _air;
+        private Collider _currentLoot;
 
         private void Awake()
         {
             UpdateWeightParameters();
+            _air = GetComponent<ShipAir>();
+            _movement = GetComponent<ShipMovement>();
+        }
+
+        private void OnEnable()
+        {
+            _rewardMinigame.OnSuccess += PickUpLoot;
+            _rewardMinigame.OnFailure += FialLootPickup;
+            _rewardMinigame.OnClose += FinishGame;
+            _air.OnDeath += Die;
+        }
+
+        private void OnDisable()
+        {
+            _rewardMinigame.OnSuccess -= PickUpLoot;
+            _rewardMinigame.OnFailure -= FialLootPickup;
+            _rewardMinigame.OnClose -= FinishGame;
+            _air.OnDeath -= Die;
         }
 
         private void UpdateWeightParameters()
@@ -40,12 +63,50 @@ namespace DeepGame.Quota
         {
             if (other.CompareTag("Loot"))
             {
-                LootItem item = other.GetComponent<LootItem>();
-                if (item != null)
-                {
-                    SetAdditionalWeight(item.Weight);
-                    Destroy(other.gameObject);
-                }
+                _currentLoot = other;
+                _movement.enabled = false;
+                StartGame();
+            }
+        }
+
+        private void FialLootPickup()
+        {
+            _air.AddAir(-10f);  
+        }
+
+        private void Die()
+        {
+            _rewardMinigame.Close();
+            FinishGame();
+        }
+
+        private void FinishGame()
+        {
+            _movement.enabled = true;
+            _miniGameRoot.SetActive(false);
+        }
+
+        private void PickUpLoot()
+        {
+            LootItem item = _currentLoot.GetComponent<LootItem>();
+            if (item != null)
+            {
+                SetAdditionalWeight(item.Weight);
+                Destroy(_currentLoot.gameObject);
+                _rewardMinigame.Close();
+                _miniGameRoot.SetActive(false);
+                _currentLoot = null;
+                _movement.enabled = true;
+            }
+        }
+
+        private void StartGame()
+        {
+            LootItem item = _currentLoot.GetComponent<LootItem>();
+            if (item != null)
+            {
+                _miniGameRoot.SetActive(true);
+                _rewardMinigame.ActivateGame(item.Dificulty);
             }
         }
     }

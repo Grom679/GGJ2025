@@ -6,6 +6,8 @@ namespace DeepGame.Quota
 {
     public class ShipAir : MonoBehaviour
     {
+        public Action OnDeath { get; set; }
+
         [SerializeField] private float _maxAir = 100f;
         [SerializeField] private float _airKoef = 1;
 
@@ -35,6 +37,7 @@ namespace DeepGame.Quota
             else if (_currentAir <= 0 && _isAlive)
             {
                 _isAlive = false;
+                OnDeath?.Invoke();
                 _quotaManager.FinishDay(0);
             }
         }

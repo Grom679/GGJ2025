@@ -6,6 +6,7 @@ public class ReactionMinigame : MonoBehaviour
 {
     public Action OnSuccess { get; set; }
     public Action OnFailure { get; set; }
+    public Action OnClose { get; set; }
 
     [SerializeField]
     private float _speed = 5f; // Speed of the moving object
@@ -14,8 +15,6 @@ public class ReactionMinigame : MonoBehaviour
     [SerializeField]
     private float _zoneHeight = 15f;
 
-    public Text feedbackText;
-    public Text scoreText;
     private int score = 0;
 
     public Image reactionZoneImage; // Visual for reaction zone
@@ -32,7 +31,6 @@ public class ReactionMinigame : MonoBehaviour
     {
         _rectTransform = GetComponent<RectTransform>();
         _initialPosX = _rectTransform.anchoredPosition.x;
-        ActivateGame(50f);
     }
 
     private void Update()
@@ -57,8 +55,6 @@ public class ReactionMinigame : MonoBehaviour
             _reactionZoneEnd = _reactionZoneStart + zoneSize;
         }
 
-        feedbackText.text = "Press Space when the object is in the zone!";
-        scoreText.text = "Score: " + score;
         UpdateZoneVisualization();
         _isOpen = true;
     }
@@ -67,6 +63,12 @@ public class ReactionMinigame : MonoBehaviour
     {
         _isOpen = false;
         ResetGame();
+    }
+
+    private void CloseUI()
+    {
+        Close();
+        OnClose?.Invoke();
     }
 
     // Move the object left and right
@@ -96,13 +98,10 @@ public class ReactionMinigame : MonoBehaviour
         if (_isInReactionZone && Input.GetKeyDown(KeyCode.Space))
         {
             score++;
-            feedbackText.text = "Good Job!";
-            scoreText.text = "Score: " + score;
             OnSuccess?.Invoke();
         }
         else if (!_isInReactionZone && Input.GetKeyDown(KeyCode.Space))
         {
-            feedbackText.text = "You missed!";
             OnFailure?.Invoke();
         }
     }
@@ -112,7 +111,6 @@ public class ReactionMinigame : MonoBehaviour
     {
         // Reset the position of the object to the starting point
         _rectTransform.anchoredPosition = new Vector3(_initialPosX, _rectTransform.anchoredPosition.y);
-        feedbackText.text = "Press Space when the object is in the zone!";
     }
 
     // Update the visuals for the range and reaction zone
