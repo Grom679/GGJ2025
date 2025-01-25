@@ -6,6 +6,7 @@ namespace DeepGame.Quota
 {
     public class ShipAir : MonoBehaviour
     {
+        public float CurrentAir => _currentAir;
         public Action OnDeath { get; set; }
 
         [SerializeField] private float _maxAir = 100f;

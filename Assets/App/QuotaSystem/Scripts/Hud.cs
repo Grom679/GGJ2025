@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
+using UnityEngine.UI;
 using VRSim.Core;
 
 public class Hud : MonoBehaviour
@@ -15,6 +16,10 @@ public class Hud : MonoBehaviour
     private TMP_Text _inventoryText;
     [SerializeField]
     private ShipInventory _inventory;
+    [SerializeField]
+    private ShipAir _air;
+    [SerializeField]
+    private Slider _airSlider;
 
     private QuotaManager _quotaManager;
 
@@ -29,5 +34,6 @@ public class Hud : MonoBehaviour
         _quotaText.text = _quotaManager.CurrentQuotaValue + "/" + quota.quotaValue;
         _days.text = _quotaManager.CurrentDay + "/" + quota.daysCount;
         _inventoryText.text = _inventory.Price.ToString();
+        _airSlider.value = _air.CurrentAir;
     }
 }
