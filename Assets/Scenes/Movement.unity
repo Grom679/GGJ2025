@@ -181,8 +181,6 @@ MonoBehaviour:
   _speed: 400
   _movementRange: 400
   _zoneHeight: 15
-  feedbackText: {fileID: 986400757}
-  scoreText: {fileID: 1275837714}
   reactionZoneImage: {fileID: 252083467}
   rangeImage: {fileID: 1310739604}
 --- !u!114 &215960868
@@ -658,6 +656,8 @@ MonoBehaviour:
   _weightMultiplier: 50
   _inertiaKoef: 0
   _speedKoef: 0
+  _rewardMinigame: {fileID: 215960867}
+  _miniGameRoot: {fileID: 1244741604}
 --- !u!114 &539264791
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -694,6 +694,8 @@ MonoBehaviour:
   _deathParticle: {fileID: 7314766000786123678, guid: cc6941c6eb71a0540859188f35953d80,
     type: 3}
   _engineParticle: {fileID: 767634889}
+  _mapGenerator: {fileID: 1891029969}
+  _deepRenderer: {fileID: 1775395339}
 --- !u!1 &698082943
 GameObject:
   m_ObjectHideFlags: 3
@@ -1624,6 +1626,12 @@ Transform:
     type: 3}
   m_PrefabInstance: {fileID: 1607728778}
   m_PrefabAsset: {fileID: 0}
+--- !u!23 &1775395339 stripped
+MeshRenderer:
+  m_CorrespondingSourceObject: {fileID: 1311368188195341631, guid: 84b0de5a6d889f042bf875ee804fece4,
+    type: 3}
+  m_PrefabInstance: {fileID: 1607728778}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &1783958788
 GameObject:
   m_ObjectHideFlags: 0
@@ -1726,7 +1734,7 @@ MonoBehaviour:
     upperSections:
     - {fileID: 8813817227379213513, guid: 7b9cf2944a9f853438b51e8e1d2d36a4, type: 3}
     middleSections:
-    - {fileID: 8813817227379213513, guid: 7b9cf2944a9f853438b51e8e1d2d36a4, type: 3}
+    - {fileID: -5116976597777331354, guid: e2351192765860e4f9e85c2f30dac66e, type: 3}
     downSections:
     - {fileID: 8813817227379213513, guid: 7b9cf2944a9f853438b51e8e1d2d36a4, type: 3}
   _middleValue: -16.38

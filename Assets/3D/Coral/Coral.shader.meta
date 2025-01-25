@@ -1,0 +1,11 @@
+fileFormatVersion: 2
+guid: 2fa84a9f5b9177e4ba2c07f706b854ca
+ShaderImporter:
+  externalObjects: {}
+  defaultTextures:
+  - _aquarium_coral_normal_2: {fileID: 2800000, guid: 383b4ce18b21a8e43acfb432eea6947c,
+      type: 3}
+  nonModifiableTextures: []
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
