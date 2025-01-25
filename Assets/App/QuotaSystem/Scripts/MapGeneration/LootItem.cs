@@ -8,12 +8,16 @@ namespace DeepGame.Loot
     {
         public float Price => _price;
         public float Weight => _weight;
+        public float Dificulty => _pickupDificulty;
 
         [SerializeField]
         private float _price;
 
         [SerializeField] 
         private float _weight;
+
+        [SerializeField]
+        private float _pickupDificulty;
     }
 }
 
