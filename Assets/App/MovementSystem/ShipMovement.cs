@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using DeepGame.Map;
 using UnityEngine;
+using UnityEngine.Playables;
 using VRSim.Core;
 
 namespace DeepGame.Quota
@@ -24,6 +25,7 @@ namespace DeepGame.Quota
         [SerializeField] private GameObject _engineParticle;
         [SerializeField] private MapGenerator _mapGenerator;
         [SerializeField] private MeshRenderer _deepRenderer;
+        [SerializeField] private PlayableDirector _playableDirector;
         
         private Vector3 _currentVelocity = Vector3.zero;
         private Vector3 _startPos;
@@ -37,6 +39,8 @@ namespace DeepGame.Quota
         private GameObject _triggeredWall;
         private MeshRenderer _meshRenderer;
         private Material _material;
+        private Coroutine _EndDayCoroutine;
+        private AudioSource _audio;
         
         private void Awake()
         {
@@ -45,6 +49,7 @@ namespace DeepGame.Quota
             _shipAir = GetComponent<ShipAir>();
             _meshRenderer = GetComponent<MeshRenderer>();
             _rigidbody = GetComponent<Rigidbody>();
+            _audio = GetComponent<AudioSource>();
             _shipInventory = GetComponent<ShipInventory>();
         }
 
@@ -106,9 +111,10 @@ namespace DeepGame.Quota
             {
                 _newPosition.y = _maxY;
                 
-                if (_quotaManager != null)
+                if (_quotaManager != null && _EndDayCoroutine == null)
                 {
-                    StartCoroutine(LeaveScene());
+                    Debug.LogError("INVOKEEE");
+                    _EndDayCoroutine = StartCoroutine(LeaveScene());
                 }
             }
 
@@ -157,6 +163,7 @@ namespace DeepGame.Quota
             Movement(false);
             _meshRenderer.enabled = false;
             _engineParticle.SetActive(false);
+            _audio.Play();
             yield return new WaitForSeconds(2f);
             
             Destroy(particle);
@@ -171,7 +178,8 @@ namespace DeepGame.Quota
         {
             _shipAir.StopAir();
             Movement(false);
-            yield return new WaitForSeconds(2f);
+            _playableDirector.Play();
+            yield return new WaitForSeconds(11f);
             _quotaManager.FinishDay(_shipInventory.Price);
         }
     }

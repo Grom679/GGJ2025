@@ -2,6 +2,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Playables;
 
 namespace DeepGame.Quota
 {
@@ -30,6 +31,7 @@ namespace DeepGame.Quota
         [SerializeField] private int _currentDay = 1;
         [SerializeField] private float _currentQuotaValue = 0f;
         [SerializeField] private float _previousQuotaValue = 0f;
+        [SerializeField] private PlayableDirector _playableDirector;
         
         public void InitializeQuota()
         {
@@ -61,15 +63,14 @@ namespace DeepGame.Quota
                     ResetCurrentValues();
                     OnQuotaFailed?.Invoke();
                 }
-                GenerateNewDay();
             }
             else
             {
                 _currentDay++;
                 _currentQuotaValue += quotaDelta;
                 OnDayFinished?.Invoke();
-                GenerateNewDay();
             }
+            GenerateNewDay();
         }
 
 
@@ -78,6 +79,7 @@ namespace DeepGame.Quota
         {
             Debug.LogError("GenerateNewDay" + _currentQuota.quotaValue);
             OnNewDayGenerated.Invoke(_currentQuota.quotaValue);
+            _playableDirector.Play();
         }
 
         private void FinishQuota()

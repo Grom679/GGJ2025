@@ -93,8 +93,11 @@ namespace DeepGame.Quota
 
         private void Die()
         {
-            _rewardMinigame.Close();
-            FinishGame();
+            if (_rewardMinigame.isActiveAndEnabled)
+            {
+                _rewardMinigame.Close();
+                FinishGame();
+            }
         }
 
         private void FinishGame()
